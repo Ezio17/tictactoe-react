@@ -1,1 +1,1 @@
-# tictactoe-react
+# React boilerplate App

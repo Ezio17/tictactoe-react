@@ -33,31 +33,35 @@ class App extends React.Component {
 
   update({ index }) {
     const { cells, count } = this.state
-
+    console.log(count)
     if (cells[index] !== null) {
       return
     }
-
-    if (count % 2 === 0) {
-      cells[index] = "O"
-
-
-      this.setState({
-        cells,
-        count: count + 1,
-        info: 'Ход: X',
-      })
-
-    } else if (count % 2 === 1) {
-      cells[index] = "X"
-
-      this.setState({
-        cells,
-        count: count + 1,
-        info: 'Ход: O'
-      })
+    if (count === null) {
+      return;
     }
 
+    const cellsCopy = [...cells];
+    const toggle = !(count % 2);
+
+    cellsCopy[index] = toggle ? 'O' : 'X'
+
+    this.setState({
+      cells: cellsCopy,
+      count: count + 1,
+      info: `Ход:  ${toggle ? 'X' : 'O'}`
+    })
+
+    this.setState({
+      cells: cellsCopy,
+      info: `Ход:  ${toggle ? 'X' : 'O'}`,
+    }, () => {
+      this.winner()
+    })
+  }
+
+  winner() {
+    const { cells, count } = this.state
     for (let combo of this._winCombination) {
       const [a, b, c] = combo;
 
@@ -69,13 +73,13 @@ class App extends React.Component {
 
         return this.setState({
           info: "Победил: " + cells[a],
-          count: undefined,
+          count: null
         })
 
-      } else if (count === 9) {
+      } else if (count === 10) {
         this.setState({
           info: 'Ничья',
-          count: undefined,
+          count: null
         })
       }
     }

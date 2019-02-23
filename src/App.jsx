@@ -33,7 +33,7 @@ class App extends React.Component {
 
   update({ index }) {
     const { cells, count } = this.state
-    console.log(count)
+
     if (cells[index] !== null) {
       return
     }
@@ -48,13 +48,8 @@ class App extends React.Component {
 
     this.setState({
       cells: cellsCopy,
-      count: count + 1,
-      info: `Ход:  ${toggle ? 'X' : 'O'}`
-    })
-
-    this.setState({
-      cells: cellsCopy,
       info: `Ход:  ${toggle ? 'X' : 'O'}`,
+      count: count + 1,
     }, () => {
       this.winner()
     })
